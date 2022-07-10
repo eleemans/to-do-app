@@ -54,7 +54,8 @@ export class TodoEditorComponent implements OnInit {
   Post() {
     const result = this.todoHttp.add(new TodoItem({
       checked: false,
-      name: "n00b erik"
+      name: "n00b erik",
+      id: Math.floor(Math.random() * 420).toString()
     }));
 
     result.subscribe({
