@@ -1,0 +1,8 @@
+<mat-selection-list [(ngModel)]="selectedModels">
+    <mat-list-option [id]="item.name" *ngFor="let item of todoItems" [selected]="item.checked" [value]="item.name"
+        (selectedChange)="intercept($event, item)">
+        {{item.name}}
+    </mat-list-option>
+</mat-selection-list>
+
+<button mat-raised-button color="primary" (click)="Post()">Post</button>
