@@ -1,6 +1,6 @@
 export class TodoItem {
     id: number;
-    title: string;
+    name: string;
     checked: boolean;
 
     constructor(init?: Partial<TodoItem>) {
