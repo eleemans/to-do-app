@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import internal = require('stream');
-import {v4 as uuidv4} from '/to-do/node_modules/uuid'
+import { v4 as uuidv4 } from 'uuid';
 
 
 const TABLE_NAME = 'todo'
@@ -16,8 +16,9 @@ export const createTodo = async (event: any = {}): Promise<any> => {
   if (!event.body) {
     return { statusCode: 400, body: 'invalid request, you are missing the parameter body' };
   }
+  // return { statusCode: 500, body: event.body };
   const item = typeof event.body == 'object' ? event.body : JSON.parse(event.body);
-  item[PRIMARY_KEY] = uuidv4();
+  // item[PRIMARY_KEY] = uuidv4();
   const params = {
     TableName: TABLE_NAME,
     Item: item
@@ -25,10 +26,16 @@ export const createTodo = async (event: any = {}): Promise<any> => {
 
   try {
     await db.put(params).promise();
-    return { statusCode: 201, body: '' };
-  } catch (dbError) {
+    return {
+      statusCode: 201, headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+      }, body: ''
+    };
+  } catch (dbError ) {
     // const errorResponse = dbError.code === 'ValidationException' && dbError.message.includes('reserved keyword') ?
     //   DYNAMODB_EXECUTION_ERROR : RESERVED_RESPONSE;
-    return { statusCode: 500, body: 'errorResponse' };
+    return { statusCode: 500, body: dbError };
   }
 };
