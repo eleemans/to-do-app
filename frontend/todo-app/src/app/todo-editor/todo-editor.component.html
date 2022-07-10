@@ -1,0 +1,5 @@
+<mat-selection-list>
+    <mat-list-option *ngFor="let item of todoItems" [selected]="item.checked">
+        {{item.title}}
+    </mat-list-option>
+</mat-selection-list>
